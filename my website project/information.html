@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information - Galaxy Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:#05010a;
+  color:#fff;
+  font-family:'Rajdhani',sans-serif;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* ===== LIVE BACKGROUND ===== */
+.bg-live{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background: radial-gradient(circle at 25% 30%, rgba(100,40,200,0.3), transparent 60%), radial-gradient(circle at 75% 70%, rgba(255,255,255,0.05), transparent 65%);
+  animation: bgMove 20s ease-in-out infinite alternate;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 0%, 100% 100%;}
+  50%{background-position:20% 10%, 80% 90%;}
+  100%{background-position:0% 0%, 100% 100%;}
+}
+
+/* ===== HERO ===== */
+.hero{
+  text-align:center;
+  padding:80px 20px 50px;
+}
+.hero h1{
+  font-size:3rem;
+  color:#e6d9ff;
+  text-shadow:0 0 20px rgba(230,217,255,0.6), 0 0 50px rgba(138,43,226,0.4);
+  letter-spacing:3px;
+}
+.hero p{
+  margin-top:10px;
+  font-size:1.2rem;
+  opacity:.75;
+  letter-spacing:1.5px;
+}
+
+/* ===== INFO CARDS ===== */
+.container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:40px;
+  padding-bottom:70px;
+}
+
+.info-card{
+  width:90%;
+  max-width:700px;
+  padding:40px;
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(40,15,70,.6),rgba(10,5,20,.85));
+  border:2px solid rgba(200,170,255,.22);
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 60px rgba(0,0,0,.6), inset 0 0 50px rgba(255,255,255,.04);
+  text-align:center;
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.info-card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 35px 90px rgba(0,0,0,.75), inset 0 0 60px rgba(255,255,255,.06);
+}
+.info-card h2{
+  font-size:2rem;
+  letter-spacing:2.5px;
+  margin-bottom:12px;
+  color:#fff;
+  text-shadow:0 0 10px rgba(255,255,255,0.25);
+}
+.info-card p{
+  margin:6px 0;
+  font-size:1.15rem;
+  opacity:.9;
+}
+.info-card a{
+  color:#d8c7ff;
+  text-decoration:none;
+  transition: color .3s, text-shadow .3s;
+}
+.info-card a:hover{
+  color:#ffccff;
+  text-shadow:0 0 8px rgba(255,200,255,.5);
+}
+
+/* ===== BACK TO LOBBY BUTTON ===== */
+.lobby-btn{
+  margin-top:10px;
+  padding:18px 60px;
+  border-radius:32px;
+  text-decoration:none;
+  letter-spacing:2.5px;
+  font-size:1.2rem;
+  color:#f0eaff;
+  border:1px solid rgba(220,200,255,.35);
+  background:rgba(30,15,60,.45);
+  backdrop-filter:blur(12px);
+  transition: all .35s ease;
+}
+.lobby-btn:hover{
+  background:rgba(60,30,100,.65);
+  box-shadow:0 0 30px rgba(220,200,255,.35);
+}
+
+/* ===== LIVE STARS ===== */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  opacity:.8;
+  animation: starBlink 3s infinite alternate;
+}
+@keyframes starBlink{
+  0%{opacity:.3;}
+  50%{opacity:1;}
+  100%{opacity:.3;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-live"></div>
+
+<header class="hero">
+  <h1>Mahdi Ghelich</h1>
+  <p>Personal Information & Social Links</p>
+</header>
+
+<div class="container">
+
+  <div class="">
+
+  </div>
+
+  <div class="info-card">
+    <h2>Instagram</h2>
+    <p><a href="https://www.instagram.com/lll85lllll" target="_blank">@lll85lllll</a></p>
+  </div>
+
+  <div class="info-card">
+    <h2>Telegram</h2>
+    <p><a href="https://t.me/parsamzmz" target="_blank">@parsamzmz</a></p>
+  </div>
+
+  <div class="info-card">
+    <h2>GitHub</h2>
+    <p><a href="https://github.com/III85III" target="_blank">III85III</a></p>
+  </div>
+
+  <a href="main-page.html" class="lobby-btn">Back to Lobby</a>
+
+</div>
+
+<script>
+/* generate live stars */
+for(let i=0;i<120;i++){
+  const s = document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=(Math.random()*3+2)+"s";
+  document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>

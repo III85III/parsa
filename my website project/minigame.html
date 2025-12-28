@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniGame</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Rajdhani',sans-serif;
+  background:#000;
+  color:#fff;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  min-height:100vh;
+  cursor: crosshair;
+}
+
+header{
+  margin-top:20px;
+  text-align:center;
+}
+header h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:2.5rem;
+  text-shadow:0 0 20px #00ffcc,0 0 40px #8a2be2;
+}
+
+#scoreboard{
+  margin:20px 0;
+  font-size:1.5rem;
+}
+
+#game-area{
+  position:relative;
+  width:90%;
+  max-width:600px;
+  height:400px;
+  background:radial-gradient(circle,#111,#000);
+  border:2px solid #00ffcc55;
+  overflow:hidden;
+  border-radius:20px;
+}
+
+.ball{
+  position:absolute;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:linear-gradient(145deg,#ff5f6d,#ffc371);
+  cursor:pointer;
+  box-shadow:0 0 20px #ff5f6d55;
+  transition: transform 0.2s;
+}
+
+.ball:hover{
+  transform: scale(1.2);
+}
+
+#timer, #highscore{
+  font-size:1.2rem;
+  margin:10px;
+}
+
+button{
+  margin:15px 10px;
+  padding:12px 25px;
+  font-size:1.2rem;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  color:#fff;
+  background:linear-gradient(90deg,#00ffcc,#8a2be2);
+  box-shadow:0 0 20px #00ffcc55,0 0 40px #8a2be2aa;
+  transition:.3s;
+}
+
+button:hover{
+  transform: scale(1.1);
+  box-shadow:0 0 30px #00ffcc88,0 0 60px #8a2be2cc;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Click the Balls!</h1>
+</header>
+
+<div id="scoreboard">
+  Score: <span id="score">0</span> | Time: <span id="timer">30</span>s | Highscore: <span id="highscore">0</span>
+</div>
+
+<div id="game-area"></div>
+
+<div>
+  <button id="playAgainBtn">Play Again</button>
+  <button id="lobbyBtn">Back to Lobby</button>
+</div>
+
+<script>
+const gameArea = document.getElementById("game-area");
+const scoreSpan = document.getElementById("score");
+const timerSpan = document.getElementById("timer");
+const highscoreSpan = document.getElementById("highscore");
+const playAgainBtn = document.getElementById("playAgainBtn");
+const lobbyBtn = document.getElementById("lobbyBtn");
+
+let score = 0;
+let time = 30;
+let timerInterval;
+let highscore = 0;
+
+function randomPosition(ball){
+  const maxX = gameArea.clientWidth - 50;
+  const maxY = gameArea.clientHeight - 50;
+  ball.style.left = Math.random() * maxX + "px";
+  ball.style.top = Math.random() * maxY + "px";
+}
+
+function spawnBall(){
+  const ball = document.createElement("div");
+  ball.classList.add("ball");
+  randomPosition(ball);
+  gameArea.appendChild(ball);
+
+  ball.addEventListener("click", (e) => {
+    e.stopPropagation(); // جلوگیری از Game Over روی کلیک توپ
+    score++;
+    scoreSpan.textContent = score;
+    ball.remove();
+    spawnBall(); // جایگزین توپ بعد از کلیک
+  });
+
+  // Remove if not clicked in 2 sec
+  setTimeout(()=>{ 
+    if(gameArea.contains(ball)){
+      ball.remove(); 
+      spawnBall();
+    }
+  },2000);
+}
+
+// Spawn two balls initially
+function spawnTwoBalls(){
+  gameArea.innerHTML = "";
+  spawnBall();
+  spawnBall();
+}
+
+// Game over on miss click
+gameArea.addEventListener("click", ()=>{ 
+  alert("Game Over! You clicked outside the balls. Score: " + score);
+  endGame();
+});
+
+function startGame(){
+  score = 0;
+  time = 30;
+  scoreSpan.textContent = score;
+  timerSpan.textContent = time;
+
+  spawnTwoBalls();
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    time--;
+    timerSpan.textContent = time;
+    if(time<=0){
+      clearInterval(timerInterval);
+      endGame();
+    }
+  },1000);
+}
+
+function endGame(){
+  if(score>highscore){
+    highscore = score;
+    highscoreSpan.textContent = highscore;
+  }
+  clearInterval(timerInterval);
+}
+
+// Buttons
+playAgainBtn.addEventListener("click", startGame);
+lobbyBtn.addEventListener("click", ()=>{window.location.href="main-page.html";}); // <-- به فایل لابی خودت تغییر بده
+
+// Start first game
+startGame();
+</script>
+
+</body>
+</html>

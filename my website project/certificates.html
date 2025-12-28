@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificates - Galaxy Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:#000;
+  color:#fff;
+  font-family:'Rajdhani',sans-serif;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+/* ===== STARFIELD ===== */
+.galaxy-bg{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:-2;
+}
+.star{
+  position:absolute;
+  width:2px;height:2px;
+  background:#fff;
+  border-radius:50%;
+  opacity:.8;
+  animation:starDrift linear infinite, starBlink ease-in-out infinite;
+}
+@keyframes starDrift{
+  from{transform:translate(0,0);}
+  to{transform:translate(80px,120px);}
+}
+@keyframes starBlink{
+  0%,100%{opacity:.3;}
+  50%{opacity:1;}
+}
+
+/* ===== METEORS ===== */
+.meteor{
+  position:absolute;
+  width:160px;
+  height:2px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.9));
+  filter:drop-shadow(0 0 6px #fff);
+  animation:meteorFly linear forwards;
+}
+@keyframes meteorFly{
+  from{transform:translate(0,0) rotate(var(--angle)); opacity:1;}
+  to{transform:translate(var(--x),var(--y)) rotate(var(--angle)); opacity:0;}
+}
+
+/* ===== HERO ===== */
+.hero{
+  text-align:center;
+  padding:70px 20px 40px;
+}
+.title{
+  font-size:2.8rem;
+  letter-spacing:4px;
+  color:#ff88ff;
+  text-shadow:0 0 15px #ff88ff,0 0 30px #ff44ff;
+}
+.subtext{
+  margin-top:12px;
+  font-size:1.1rem;
+  opacity:.75;
+  letter-spacing:1.2px;
+}
+
+/* ===== CERTIFICATE CARDS ===== */
+.lobby-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:35px;
+  padding-bottom:60px;
+}
+.certificate-card{
+  width:90%;
+  max-width:720px;
+  padding:36px 40px;
+  border-radius:25px;
+  background:linear-gradient(180deg,rgba(60,0,90,.55),rgba(10,0,20,.85));
+  border:1px solid rgba(255,100,255,.2);
+  backdrop-filter:blur(12px);
+  box-shadow:
+    0 25px 70px rgba(255,0,255,.25),
+    inset 0 0 40px rgba(255,255,255,.05);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.certificate-card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:
+    0 35px 90px rgba(255,0,255,.4),
+    inset 0 0 50px rgba(255,255,255,.07);
+}
+.certificate-card h2{
+  font-size:1.8rem;
+  letter-spacing:2px;
+  margin-bottom:8px;
+  color:#fff;
+  text-shadow:0 0 10px rgba(255,255,255,0.25);
+}
+.certificate-card h3{
+  font-size:1.3rem;
+  margin-bottom:12px;
+  font-weight:600;
+  color:#ffb3ff;
+  opacity:.95;
+}
+.certificate-card p{
+  margin:5px 0;
+  font-size:1rem;
+  opacity:.85;
+}
+.certificate-card .desc{
+  margin-top:12px;
+  font-size:.95rem;
+  opacity:.8;
+  line-height:1.5;
+}
+
+/* ===== BUTTON ===== */
+.lobby-btn{
+  margin-top:20px;
+  padding:16px 60px;
+  border-radius:32px;
+  text-decoration:none;
+  letter-spacing:2.5px;
+  font-size:1.15rem;
+  color:#fff;
+  border:1px solid rgba(255,100,255,.4);
+  background:rgba(50,0,80,.45);
+  backdrop-filter:blur(12px);
+  transition:all .35s ease;
+}
+.lobby-btn:hover{
+  background:rgba(120,0,200,.65);
+  box-shadow:0 0 35px rgba(255,100,255,.4);
+}
+
+/* ===== SATURN-LIKE RING ===== */
+.saturn-ring{
+  position:fixed;
+  width:1200px;
+  height:1200px;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%) rotate(-15deg);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:-1;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    inset 0 0 100px rgba(255,255,255,.05),
+    0 0 150px rgba(255,0,255,.08);
+  mask-image:radial-gradient(circle, transparent 55%, black 58%, black 62%, transparent 65%);
+  animation:ringFloat 50s ease-in-out infinite;
+}
+@keyframes ringFloat{
+  0%{transform:translate(-50%,-50%) rotate(-15deg);}
+  50%{transform:translate(-50%,-52%) rotate(-12deg);}
+  100%{transform:translate(-50%,-50%) rotate(-15deg);}
+}
+</style>
+</head>
+<body>
+
+<div class="galaxy-bg"></div>
+<div class="saturn-ring"></div>
+
+<header class="hero">
+<h1 class="title">CERTIFICATES</h1>
+<p class="subtext">Professional Achievements & Credentials</p>
+</header>
+
+<div class="lobby-container">
+
+<div class="certificate-card">
+<h2>Certificate of Achievement</h2>
+<h3>ISO / IEC 20000</h3>
+<p>Title: IT Service Management Associate</p>
+<p>Name: Mahdi Ghelich</p>
+<p>Date: 16 September 2024</p>
+<p>Authorized Certificate ID: 81209751156002</p>
+<p class="desc">Recognized for expertise in IT service management principles and ISO / IEC 20000 standards implementation.</p>
+</div>
+
+<div class="certificate-card">
+<h2>Certificate of Achievement</h2>
+<h3>ISO 9001</h3>
+<p>Title: Quality Management System Associate</p>
+<p>Name: Mahdi Ghelich</p>
+<p>Date: 16 September 2024</p>
+<p>Authorized Certificate ID: 65179531163506</p>
+<p class="desc">Awarded for proficiency in quality management systems and implementation of ISO 9001 standards.</p>
+</div>
+
+<div class="certificate-card">
+<h2>Certificate of Achievement</h2>
+<h3>ISO / IEC 27001:2022</h3>
+<p>Title: Information Security Associate</p>
+<p>Name: Mahdi Ghelich</p>
+<p>Date: 19 August 2024</p>
+<p>Authorized Certificate ID: 88928104120113</p>
+<p class="desc">Recognized for mastery in information security principles and ISO / IEC 27001:2022 standards.</p>
+</div>
+
+<div class="certificate-card">
+<h2>Certificate of Achievement</h2>
+<h3>PCAP – Python Certified Associate in Python Programming</h3>
+<p>Field: Python Programming</p>
+<p>Name: Mahdi Ghelich</p>
+<p>Certificate No: 14790030506215</p>
+<p>Date: 20 July 2024</p>
+<p class="desc">Awarded for demonstrating comprehensive knowledge and proficiency in Python programming concepts, problem-solving, and best practices.</p>
+</div>
+
+<a href="main-page.html" class="lobby-btn">Back to Lobby</a>
+</div>
+
+<script>
+/* ===== STARS ===== */
+const galaxy=document.querySelector('.galaxy-bg');
+for(let i=0;i<220;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=(Math.random()*30+20)+"s,"+(Math.random()*4+2)+"s";
+  galaxy.appendChild(s);
+}
+
+/* ===== METEORS ===== */
+function spawnMeteor(){
+  const m=document.createElement("div");
+  m.className="meteor";
+  const startX=Math.random()*window.innerWidth;
+  const startY=Math.random()*window.innerHeight;
+  const angle=Math.random()*360;
+  const distance=Math.random()*600+400;
+  const x=Math.cos(angle*Math.PI/180)*distance;
+  const y=Math.sin(angle*Math.PI/180)*distance;
+  m.style.left=startX+"px";
+  m.style.top=startY+"px";
+  m.style.setProperty("--angle",angle+"deg");
+  m.style.setProperty("--x",x+"px");
+  m.style.setProperty("--y",y+"px");
+  m.style.animationDuration=(Math.random()*1.2+.6)+"s";
+  galaxy.appendChild(m);
+  setTimeout(()=>m.remove(),1500);
+}
+setInterval(spawnMeteor,400);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U CAN’T :D</title>
+<link rel="stylesheet" href="meow.css">
+</head>
+
+<body class="hack-body">
+
+<div class="glitch-bg"></div>
+<div class="noise"></div>
+<div class="scanlines"></div>
+
+<div class="center">
+<h1 class="hard-glitch">U CAN’T :D</h1>
+<h2 class="sub-glitch">ACCESS DENIED</h2>
+
+<div class="info-box" id="info"></div>
+<div class="terminal" id="terminal"></div>
+
+<a href="main-page.html" class="hack-back">RETURN TO LOBBY</a>
+<a href="main%20page.html" class=""></a>
+
+</div>
+
+<script>
+const info=document.getElementById("info")
+const terminal=document.getElementById("terminal")
+
+function add(k,v){
+const d=document.createElement("div")
+d.innerHTML="<span>"+k+"</span> : "+v
+info.appendChild(d)
+}
+
+add("DEVICE",/Mobi|Android/i.test(navigator.userAgent)?"MOBILE":"DESKTOP")
+add("USER AGENT",navigator.userAgent)
+add("PLATFORM",navigator.platform)
+add("LANGUAGE",navigator.language)
+add("TIMEZONE",Intl.DateTimeFormat().resolvedOptions().timeZone)
+add("SCREEN",screen.width+" x "+screen.height)
+add("PIXEL RATIO",window.devicePixelRatio)
+add("COLOR DEPTH",screen.colorDepth)
+add("CPU THREADS",navigator.hardwareConcurrency||"RESTRICTED")
+add("MEMORY",navigator.deviceMemory?navigator.deviceMemory+" GB":"RESTRICTED")
+add("TOUCH POINTS",navigator.maxTouchPoints)
+add("COOKIES",navigator.cookieEnabled?"ENABLED":"DISABLED")
+add("DO NOT TRACK",navigator.doNotTrack||"UNSPECIFIED")
+add("ONLINE",navigator.onLine?"YES":"NO")
+add("REFERRER",document.referrer||"DIRECT")
+add("VISIBILITY",document.visibilityState)
+add("LOCAL TIME",new Date().toLocaleString())
+
+if(navigator.connection){
+add("CONNECTION",navigator.connection.effectiveType)
+add("DOWNLINK",navigator.connection.downlink+" Mbps")
+}
+
+if(navigator.getBattery){
+navigator.getBattery().then(b=>{
+add("BATTERY",Math.round(b.level*100)+"%")
+add("CHARGING",b.charging?"YES":"NO")
+})
+}
+
+if(navigator.storage && navigator.storage.estimate){
+navigator.storage.estimate().then(e=>{
+add("STORAGE USED",Math.round(e.usage/1024/1024)+" MB")
+add("STORAGE TOTAL",Math.round(e.quota/1024/1024)+" MB")
+})
+}
+
+if(navigator.permissions){
+["camera","microphone","geolocation","notifications"].forEach(p=>{
+navigator.permissions.query({name:p}).then(r=>{
+add(p.toUpperCase(),r.state.toUpperCase())
+})
+})
+}
+
+fetch("https://ipapi.co/json/")
+.then(r=>r.json())
+.then(d=>{
+add("IP ADDRESS",d.ip)
+add("CITY",d.city)
+add("REGION",d.region)
+add("COUNTRY",d.country_name)
+add("ISP",d.org)
+})
+.catch(()=>{
+add("NETWORK","BLOCKED")
+})
+
+const logs=[
+"INITIALIZING TRACE MODULE",
+"SCANNING MEMORY SECTORS",
+"ENUMERATING PERMISSIONS",
+"COLLECTING FINGERPRINT",
+"PACKET INTERCEPTED",
+"INJECTION FAILED",
+"ACCESS DENIED",
+"YOU CAN’T :D"
+]
+
+setInterval(()=>{
+const l=document.createElement("div")
+l.textContent="> "+logs[Math.floor(Math.random()*logs.length)]
+terminal.appendChild(l)
+if(terminal.children.length>80)terminal.removeChild(terminal.children[0])
+terminal.scrollTop=terminal.scrollHeight
+},70)
+</script>
+
+</body>
+</html>

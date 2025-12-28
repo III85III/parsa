@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galaxy Lobby</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#000;
+  color:#fff;
+  font-family:'Rajdhani',sans-serif;
+  overflow:hidden;
+}
+
+/* ===== LOADER ===== */
+#loader{
+  position:fixed;inset:0;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.loader-box{width:420px;text-align:center}
+.loader-text{
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:4px;
+  margin-bottom:18px;
+  color:#00ffcc;
+}
+.loader-bar{height:6px;background:#111}
+.loader-bar span{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,#00ffcc,#8a2be2);
+  animation:load 3s forwards;
+}
+@keyframes load{to{width:100%}}
+
+/* ===== STARFIELD ===== */
+.space{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:-2;
+}
+.star{
+  position:absolute;
+  width:2px;height:2px;
+  background:#fff;
+  border-radius:50%;
+  opacity:.8;
+  animation:starDrift linear infinite, starBlink ease-in-out infinite;
+}
+@keyframes starDrift{
+  from{transform:translate(0,0)}
+  to{transform:translate(80px,120px)}
+}
+@keyframes starBlink{
+  0%,100%{opacity:.3}
+  50%{opacity:1}
+}
+
+/* ===== METEORS ===== */
+.meteor{
+  position:absolute;
+  width:160px;
+  height:2px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.9));
+  filter:drop-shadow(0 0 6px #fff);
+  animation:meteorFly linear forwards;
+}
+@keyframes meteorFly{
+  from{transform:translate(0,0) rotate(var(--angle)); opacity:1;}
+  to{transform:translate(var(--x),var(--y)) rotate(var(--angle)); opacity:0;}
+}
+
+/* ===== HERO ===== */
+.hero{
+  height:32vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.hero h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:3.2rem;
+  letter-spacing:6px;
+  text-shadow:0 0 40px #00ffcc,0 0 80px #8a2be2;
+}
+
+/* ===== BUTTON BASE ===== */
+.lobby{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  margin-top:20px;
+}
+.btn{
+  width:300px;
+  padding:20px 0;
+  text-align:center;
+  text-decoration:none;
+  font-size:1.45rem;
+  border-radius:26px;
+  font-family:'Orbitron',sans-serif;
+  transition:.4s;
+}
+
+/* ===== PRICE ===== */
+.price-btn{
+  color:#ffdd55;
+  border:1px solid #ffdd5588;
+  background:rgba(50,20,0,.45);
+  text-shadow:0 0 20px #ffdd55,0 0 40px #ffaa33;
+}
+.price-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 45px #ffdd55,0 0 70px #ffaa33;
+}
+
+/* ===== INFO ===== */
+.info-btn{
+  color:#6ffcff;
+  border:1px solid #6ffcff88;
+  background:rgba(0,50,70,.45);
+  text-shadow:0 0 20px #6ffcff,0 0 40px #00cfff;
+}
+.info-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 45px #6ffcff,0 0 70px #00cfff;
+}
+
+/* ===== CERT ===== */
+.cert-btn{
+  color:#d9a6ff;
+  border:1px solid #d9a6ff88;
+  background:rgba(40,0,70,.45);
+  text-shadow:0 0 20px #d9a6ff,0 0 40px #a855f7;
+}
+.cert-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 45px #d9a6ff,0 0 70px #a855f7;
+}
+
+/* ===== HACK ===== */
+.hack-btn{
+  color:#00ff9c;
+  border:1px solid #00ff9c88;
+  background:#000;
+  letter-spacing:5px;
+  text-shadow:0 0 20px #00ff9c,0 0 40px #00ffaa;
+  animation:flicker 2s infinite;
+}
+.hack-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 50px #00ff9c,0 0 80px #00ffaa;
+}
+@keyframes flicker{
+  0%,100%{opacity:1}
+  50%{opacity:.85}
+}
+
+/* ===== MINIGAME ===== */
+.minigame-btn{
+  color:#ff77ff;
+  border:1px solid #ff77ff88;
+  background:rgba(60,0,60,.45);
+  text-shadow:0 0 20px #ff77ff,0 0 40px #c800ff;
+}
+.minigame-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 45px #ff77ff,0 0 80px #c800ff;
+}
+
+/* ===== AFK ===== */
+#afkScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000;
+  color:#fff;
+  font-family:'Orbitron',sans-serif;
+  text-align:center;
+  z-index:9999;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+#afkScreen h1{
+  font-size:4rem;
+  color:#ff5555;
+  text-shadow:0 0 30px #ff5555,0 0 50px #ff0000;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+  <div class="loader-box">
+    <div class="loader-text">INITIALIZING SYSTEM</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+</div>
+
+<div class="space" id="space"></div>
+
+<header class="hero">
+  <h1>enjoy it :)</h1>
+</header>
+
+<div class="lobby">
+  <a href="price.html" class="btn price-btn">Price</a>
+  <a href="information.html" class="btn info-btn">Information</a>
+  <a href="certificates.html" class="btn cert-btn">Certificates</a>
+  <a href="hacker.html" class="btn hack-btn">TRY TO HACK ME</a>
+  <a href="minigame.html" class="btn minigame-btn">Minigame</a>
+</div>
+
+<div id="afkScreen">
+  <h1>YOU ARE AFK</h1>
+</div>
+
+<script>
+setTimeout(()=>{
+  document.getElementById("loader").remove();
+  document.body.style.overflow="auto";
+},3000);
+
+const space=document.getElementById("space");
+for(let i=0;i<220;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.top=Math.random()*100+"%";
+  s.style.left=Math.random()*100+"%";
+  s.style.animationDuration=
+    (Math.random()*30+20)+"s,"+
+    (Math.random()*4+2)+"s";
+  space.appendChild(s);
+}
+
+function spawnMeteor(){
+  const m=document.createElement("div");
+  m.className="meteor";
+  const startX=Math.random()*innerWidth;
+  const startY=Math.random()*innerHeight;
+  const angle=Math.random()*360;
+  const d=Math.random()*600+400;
+  m.style.left=startX+"px";
+  m.style.top=startY+"px";
+  m.style.setProperty("--angle",angle+"deg");
+  m.style.setProperty("--x",Math.cos(angle*Math.PI/180)*d+"px");
+  m.style.setProperty("--y",Math.sin(angle*Math.PI/180)*d+"px");
+  m.style.animationDuration=(Math.random()*1.2+.6)+"s";
+  space.appendChild(m);
+  setTimeout(()=>m.remove(),1500);
+}
+setInterval(spawnMeteor,350);
+
+let afkTimer;
+const afkScreen=document.getElementById("afkScreen");
+function resetAFK(){
+  clearTimeout(afkTimer);
+  afkScreen.style.display="none";
+  document.body.style.overflow="auto";
+  afkTimer=setTimeout(()=>{
+    afkScreen.style.display="flex";
+    document.body.style.overflow="hidden";
+  },60000);
+}
+['mousemove','keydown','scroll','touchstart'].forEach(e=>{
+  addEventListener(e, resetAFK);
+});
+resetAFK();
+</script>
+
+</body>
+</html>
